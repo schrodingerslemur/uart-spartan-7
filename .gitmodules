@@ -1,3 +1,0 @@
-[submodule "deps/uart"]
-	path = deps/uart
-	url = git@github.com:schrodingerslemur/uart.git
