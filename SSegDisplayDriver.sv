@@ -1,16 +1,3 @@
-// Required in every 18-240 file, but commented out to prevent synthesis issues
-// `default_nettype none
-
-/*
- * This module should be interfaced with a combinational 7-Segment Display
- * module in order to display 8 BCD values upon the Boolean board. It is
- * intended to abstract away the sequential logic required to use the
- * 7-Segment Displays present on the Boolean board for 18-240 students.
- *
- * Date:   1/27/25
- * Author: Rudy Sorensen (rsorense)
- */
-
 module SSegDisplayDriver (
   input  logic            clk,
   input  logic            reset,
