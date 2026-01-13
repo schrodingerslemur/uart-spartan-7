@@ -1,2 +1,6 @@
+# vivado files
+vivado*
+.Xil/
+
 # Git modules
 .gitmodules
