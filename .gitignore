@@ -5,3 +5,7 @@ vivado*
 
 # Git modules
 .gitmodules
+
+# UV stuff
+.python-version
+.vscode
