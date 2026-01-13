@@ -1,4 +1,5 @@
 # vivado files
+*.txt
 vivado*
 .Xil/
 
