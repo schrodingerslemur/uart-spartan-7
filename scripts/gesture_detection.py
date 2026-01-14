@@ -148,8 +148,18 @@ class HandGestureDetector:
                         # If hand is on left side of screen (x < 0.5), it's the left hand
                         if avg_x < 0.5:
                             left_y = y_pos
+                            # Adjust x coordinates for left frame (multiply by 2 to map [0, 0.5] to [0, 1])
+                            adjusted_landmarks = []
+                            for lm in hand_landmarks:
+                                adjusted_lm = type('obj', (object,), {
+                                    'x': lm.x * 2,  # Remap from [0, 0.5] to [0, 1]
+                                    'y': lm.y,
+                                    'z': lm.z
+                                })()
+                                adjusted_landmarks.append(adjusted_lm)
+                            
                             # Draw on left frame
-                            self.draw_landmarks(left_frame, hand_landmarks, w//2, h)
+                            self.draw_landmarks(left_frame, adjusted_landmarks, w//2, h)
                             cv2.putText(left_frame, f"Left Hand Y: {left_y}", 
                                        (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 
                                        0.7, (0, 255, 0), 2)
@@ -168,7 +178,7 @@ class HandGestureDetector:
                             # Draw on right frame
                             self.draw_landmarks(right_frame, adjusted_landmarks, w//2, h)
                             cv2.putText(right_frame, f"Right Hand Y: {right_y}", 
-                                       (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 
+                                       (w//2 - 200, 30), cv2.FONT_HERSHEY_SIMPLEX, 
                                        0.7, (0, 255, 0), 2)
                 
                 # Add labels

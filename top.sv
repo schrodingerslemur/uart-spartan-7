@@ -20,7 +20,7 @@ module top (
   uart #(
     .BAUD_RATE   (115_200),
     .CLOCK_FREQ  (100_000_000),
-    .DATA_BITS   (8)
+    .DATA_BITS   (16)
   ) uart_inst (
     .clock (CLOCK_100),
     .reset (BTN[0]),
@@ -38,7 +38,7 @@ module top (
 
   logic [3:0] HEX0, HEX1, HEX2, HEX3, HEX4,
               HEX5, HEX6, HEX7;
-  logic [7:0] received_val;
+  logic [6:0] received_val;
   EightSevenSegmentDisplays sseg (
     .CLOCK_100,
     .reset(),
@@ -47,16 +47,26 @@ module top (
     .*
   );
 
+  // Left / Right logic
+  logic right;
+  logic [6:0] left_val, right_val;
+  assign {right, received_val} = rx_data;
+
   // Display values
   assign HEX0 = SW[7:0]; // tx value
-  assign HEX7 = received_val; // rx value
+  assign {HEX7, HEX6} = left_val; // rx value
+  assign {HEX5, HEX4} = right_val;
 
   // Register
   always_ff @(posedge CLOCK_100 or posedge BTN[0]) begin
       if (BTN[0]) begin
-        received_val <= '0;
+        left_val <= '0;
+        right_val <= '0;
       end else if (en) begin
-        received_val <= rx_data;
+        if (right)
+          right_val <= received_val;
+        else
+          left_val <= received_val;
       end
   end
 
